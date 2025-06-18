@@ -107,9 +107,12 @@ async function downloadRelease(nameKey, version) {
     core.addPath(path.join(pathToCLI, "."));
     
     core.info(`Successfully installed ${nameKey} version ${resolvedVersion}`);
-
+    
     if (config.postInstall) {
+      core.info(`Running post-install script for ${nameKey}`);
       await config.postInstall();
+    } else {
+      core.info(`No post-install script found for ${nameKey}, skipping...`);
     }
   } catch (error) {
     throw new Error(`Failed to download ${nameKey}: ${error.message}`);
